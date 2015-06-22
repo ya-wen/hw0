@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,6 +105,7 @@ var startgame=0;
 var camera, scene, renderer, geometry, material, mesh, controls;
 var clock = new THREE.Clock();
 var pucks = [];
+
 var records = [];
 var memember;
 var which = 1;
@@ -112,6 +114,7 @@ var thegate=35;
 var deadth=0;
 var meshMaterialc;
 var onRenderFcts= [];
+/*====================puck========================*/
 var Puck = function () {
     this.vel = new THREE.Vector3();
     this.pos = new THREE.Vector3();
@@ -198,7 +201,7 @@ Puck.prototype.collision = function () {
 		}
 
 }
-
+/*====================puck========================*/
 init();
 animate();
 
@@ -224,7 +227,7 @@ function searchUser(name) {
 }
 function mallocolumn()
 {
-    var geometryc = new THREE.CylinderGeometry(5,5,20,200);
+    var geometryc = new THREE.CylinderGeometry(20,20,50,200);
 
 		meshMaterialc = new THREE.ShaderMaterial({
         uniforms: {
@@ -237,23 +240,23 @@ function mallocolumn()
         fragmentShader: document.getElementById('fragmentShader').textContent
     });
 
-		var meshc = new THREE.Mesh(geometry, meshMaterialc);
-		meshc.rotation.z=Math.PI/2;
+		var meshc = new THREE.Mesh(geometryc, meshMaterialc);
+	//	meshc.rotation.z=Math.PI/2;
 		meshc.position.set(105, 15, 105)
 	//	scene = new THREE.Scene();
 		scene.add(meshc);
-		var meshc2 = new THREE.Mesh(geometry, meshMaterialc);
-		meshc2.rotation.z=Math.PI/2;
+		var meshc2 = new THREE.Mesh(geometryc, meshMaterialc);
+		//meshc2.rotation.z=Math.PI/2;
 		meshc2.position.set(-105, 15, 105)
 	//	scene = new THREE.Scene();
 		scene.add(meshc2);
-		var meshc3 = new THREE.Mesh(geometry, meshMaterialc);
-		meshc3.rotation.z=Math.PI/2;
+		var meshc3 = new THREE.Mesh(geometryc, meshMaterialc);
+		//meshc3.rotation.z=Math.PI/2;
 		meshc3.position.set(105, 15, -105)
 	//	scene = new THREE.Scene();
 		scene.add(meshc3);
-		var meshc4 = new THREE.Mesh(geometry, meshMaterialc);
-		meshc4.rotation.z=Math.PI/2;
+		var meshc4 = new THREE.Mesh(geometryc, meshMaterialc);
+		//meshc4.rotation.z=Math.PI/2;
 		meshc4.position.set(-105, 15, -105)
 	//	scene = new THREE.Scene();
 		scene.add(meshc4);
@@ -261,7 +264,6 @@ function mallocolumn()
 var meshw1,meshw2,meshw3,meshw4;
 function words()
 {
-
 	meshw1	= new THREEx.Text('press')
 	meshw1.scale.multiplyScalar(20)
 	meshw1.position.z	= -50
@@ -306,7 +308,7 @@ function words2()
 	meshw2.scale.multiplyScalar(20)
 	meshw2.rotation.x=-Math.PI/2;
 	scene.add(meshw2)
-	meshw4	= new THREEx.Text(deadth);
+	meshw4	= new THREEx.Text(5-deadth);
 	meshw4.scale.multiplyScalar(20)
 	meshw4.rotation.x=-Math.PI/2;
 	meshw4.position.x	= 60
@@ -329,13 +331,13 @@ $("#start").click(function(){
 	meshw2.scale.multiplyScalar(20)
 	meshw2.rotation.x=-Math.PI/2;
 	scene.add(meshw2)
-	meshw3	= new THREEx.Text('outpuck');
+	meshw3	= new THREEx.Text('life');
 	meshw3.scale.multiplyScalar(20)
 	meshw3.rotation.x=-Math.PI/2;
 	meshw3.position.x	= -40
 	meshw3.position.z	= 50
 	scene.add(meshw3)
-	meshw4	= new THREEx.Text(0);
+	meshw4	= new THREEx.Text(5);
 	meshw4.scale.multiplyScalar(20)
 	meshw4.rotation.x=-Math.PI/2;
 	meshw4.position.x	= 60
@@ -366,12 +368,9 @@ function mallocwall()
     mesh2 = mesh1.clone();
     mesh2.position.set(0, 15, -105);
     scene.add(mesh2);
-   // mesh3 = mesh1.clone();
-   
-	
-	/*========================================================*/
-	/*                   the wall                          */
-	/*========================================================*/
+ /*========================================================*/
+ /*                   the wall                          */
+/*========================================================*/
 	mesh12 = new THREE.Mesh(geometry, material2);
     mesh12.position.set(80, 15, 105);
     scene.add(mesh12);
@@ -379,16 +378,9 @@ function mallocwall()
     mesh22.position.set(80, 15, -105);
     scene.add(mesh22);
     mesh32 = mesh12.clone();
-    /*mesh32.rotation.y = Math.PI / 2;
-    mesh32.position.set(105, 15, 80);
-    scene.add(mesh32);
-    mesh42 = mesh12.clone();
-    mesh42.rotation.y = Math.PI / 2;
-    mesh42.position.set(-105, 15, 80);
-    scene.add(mesh42);*/
-	/*========================================================*/
-	/*                   the wall                          */
-	/*========================================================*/
+/*========================================================*/
+/*                   the wall                          */
+/*========================================================*/
 	mesh13 = new THREE.Mesh(geometry, material2);
     mesh13.position.set(-80, 15, 105);
     scene.add(mesh13);
@@ -439,20 +431,18 @@ function getdate()
     var obj = null;
     try{
         obj = JSON.parse(objStr);
-		memember=obj.number;
-		for(var i=0;i<ballnumber;i++)
+		var loginplayer=obj.number;
+		for(var i=0;i<loginplayer;i++)
 		{
-			posx[i]=obj.posx[i];
-			posy[i]=obj.posy[i];
-			posz[i]=obj.posz[i];
-			metatex[i]=obj.tex[i];
+			records[i]=obj.records[i];
 		}
-        alert(obj.number);
+       // alert("already getdate");
     }catch(e){
         //throw a exception if parse null to json
-        alert(objStr);
+        //alert(objStr);
     }
 }
+
 function init() {
    //scene = new THREE.Scene();
 	setscreen1();
@@ -464,6 +454,7 @@ function init() {
 	mallocwall();
 	mallocolumn();
 	words();
+	getdate();
     geometry = new THREE.BoxGeometry(220, 30, 10);
     material = new THREE.MeshBasicMaterial({
         transparent: true,
@@ -516,15 +507,6 @@ function onDocumentMouseMove( event ) {
     var hh = mainscreen.clientHeight;
 	mouse.x = ( event.clientX /ww ) * 2 - 1;
 	mouse.y = - ( event.clientY /hh) * 2 + 1;
-
-	// tracer: find intersection on xz plane
-	var depth0 = new THREE.Vector3( mouse.x, mouse.y, 0.0 ).unproject( camera );
-	var depth1 = new THREE.Vector3( mouse.x, mouse.y, 1.0 ).unproject( camera );
-
-	var t = depth0.y / (depth0.y - depth1.y);
-	var x = depth0.x + t * (depth1.x - depth0.x);
-	var z = depth0.z + t * (depth1.z - depth0.z);
-	//target.set (x,0,z);
 }
 function onWindowResize ()
 {
@@ -567,6 +549,12 @@ function deadevent()
 		});
 		deadth++;
 		startgame=0;
+		 var obj = {};
+		obj.number = records.length;
+		obj.records =records;
+		var objStr = JSON.stringify(obj);
+		localStorage.setItem("myObj", objStr);
+		//alert("already save");
 }
 function animate() {
 	if(startgame==1)
@@ -598,6 +586,8 @@ function animate() {
 </body>
 
 </html>
+
+
 
 
 
